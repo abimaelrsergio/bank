@@ -61,4 +61,4 @@
 
 ```bash
 git clone https://github.com/abimaelrsergio/Abimoney.git
-cd Abimoney
+cd bank
