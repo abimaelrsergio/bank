@@ -27,4 +27,30 @@ public class AccountsController {
         var customerDto = iAccountsService.fetchAccount(mobileNumber);
         return ResponseEntity.ok(customerDto);
     }
+
+    @PutMapping("/update")
+    public ResponseEntity<ResponseDto> updateAccountDetails(@RequestBody CustomerDto customerDto){
+        boolean isUpdated = iAccountsService.updateAccount(customerDto);
+        if (isUpdated) {
+            return ResponseEntity
+                    .ok(new ResponseDto(AccountsConstants.STATUS_200, AccountsConstants.MESSAGE_200));
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDto(AccountsConstants.STATUS_500, AccountsConstants.MESSAGE_500));
+        }
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<ResponseDto> deleteAccountDetails(@RequestParam String mobileNumber){
+        boolean isDeleted = iAccountsService.deleteAccount(mobileNumber);
+        if (isDeleted){
+            return ResponseEntity
+                    .ok(new ResponseDto(AccountsConstants.STATUS_200, AccountsConstants.MESSAGE_200));
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDto(AccountsConstants.STATUS_500, AccountsConstants.MESSAGE_500));
+        }
+    }
 }
