@@ -60,5 +60,5 @@
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/abimaelrsergio/Abimoney.git
+git clone https://github.com/abimaelrsergio/bank.git
 cd bank

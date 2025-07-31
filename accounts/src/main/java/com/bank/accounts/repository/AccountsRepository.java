@@ -15,4 +15,11 @@ public interface AccountsRepository extends JpaRepository<Accounts, Long> {
      * @return An Account
      */
     Optional<Accounts> findByCustomerId(Long customerId);
+
+    /**
+     * Delete the Account by customer id
+     *
+     * @param customerId the uniq customer identifier
+     */
+    void deleteByCustomerId(Long customerId);
 }
