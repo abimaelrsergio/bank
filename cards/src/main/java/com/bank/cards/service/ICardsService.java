@@ -1,5 +1,7 @@
 package com.bank.cards.service;
 
+import com.bank.cards.dto.*;
+
 public interface ICardsService {
 
     /**
