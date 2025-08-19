@@ -10,7 +10,7 @@ import io.swagger.v3.oas.annotations.tags.*;
 import jakarta.validation.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
-import org.apache.coyote.*;
+
 import org.springframework.http.*;
 import org.springframework.validation.annotation.*;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
         name = "CRUD REST APIs for Cards in Bank",
         description = "CRUD REST APIs in Bank to CREATE, UPDATE, FETCH AND DELETE card details"
 )
-@RequestMapping(path = "/api", produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(path = "/api/cards", produces = {MediaType.APPLICATION_JSON_VALUE})
 @AllArgsConstructor
 @Validated
 @RestController
@@ -47,7 +47,7 @@ public class CardsController {
                     )
             )
     })
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<ResponseDto> createCard(@Valid @RequestParam
                                                   @Pattern(regexp = "(^$|[0-9]{11})", message = "Mobile number must be 11 digits")
                                                   String mobileNumber){
@@ -74,7 +74,7 @@ public class CardsController {
                     )
             )
     })
-    @GetMapping("/fetch")
+    @GetMapping
     public ResponseEntity<CardsDto> fetchCardDetails(@RequestParam
                                                      @Pattern(regexp = "(^$|[0-9]{11})", message = "Mobile number must be 11 digits")
                                                      String mobileNumber){
@@ -103,7 +103,7 @@ public class CardsController {
                     )
             )
     })
-    @PutMapping("/update")
+    @PutMapping
     public ResponseEntity<ResponseDto> updateCardDetails(@Valid @RequestBody CardsDto cardsDto){
         boolean isUpdated = iCardsService.updateCard(cardsDto);
         if(isUpdated){
@@ -137,7 +137,7 @@ public class CardsController {
                     )
             )
     })
-    @DeleteMapping("/delete")
+    @DeleteMapping
     public ResponseEntity<ResponseDto> deleteCardDetails(@RequestParam
                                                              @Pattern(regexp = "(^$|[0-9]{11})", message = "Mobile number must be 10 digits")
                                                              String mobileNumber){

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
         description = "CRUD REST APIs in Bank to CREATE, UPDATE, FETCH AND DELETE account details"
 )
 @RestController
-@RequestMapping(path = "/api", produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(path = "/api/accounts", produces = {MediaType.APPLICATION_JSON_VALUE})
 @AllArgsConstructor
 @Validated
 public class AccountsController {
@@ -43,7 +43,7 @@ public class AccountsController {
                     )
             )
     })
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<ResponseDto> createAccount(@Valid @RequestBody CustomerDto customerDto) {
         iAccountsService.createAccount(customerDto);
         return ResponseEntity
@@ -68,7 +68,7 @@ public class AccountsController {
                     )
             )
     })
-    @GetMapping("/fetch")
+    @GetMapping
     public ResponseEntity<CustomerDto> fetchAccountDetails(@RequestParam
                                                            @Pattern(regexp = "(^$|[0-9]{11})", message = "Mobile number must be 11 digits")
                                                            String mobileNumber) {
@@ -97,7 +97,7 @@ public class AccountsController {
                     )
             )
     })
-    @PutMapping("/update")
+    @PutMapping
     public ResponseEntity<ResponseDto> updateAccountDetails(@Valid @RequestBody CustomerDto customerDto) {
         boolean isUpdated = iAccountsService.updateAccount(customerDto);
         if (isUpdated) {
@@ -131,7 +131,7 @@ public class AccountsController {
                     )
             )
     })
-    @DeleteMapping("/delete")
+    @DeleteMapping
     public ResponseEntity<ResponseDto> deleteAccountDetails(@RequestParam
                                                             @Pattern(regexp = "^$|[0-9]{11}", message = "Mobile number must be 11 digits")
                                                             String mobileNumber) {
