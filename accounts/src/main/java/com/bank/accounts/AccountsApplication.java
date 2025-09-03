@@ -1,9 +1,11 @@
 package com.bank.accounts;
 
+import com.bank.accounts.dto.*;
 import io.swagger.v3.oas.annotations.*;
 import io.swagger.v3.oas.annotations.info.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.*;
 import org.springframework.data.jpa.repository.config.*;
 
 @OpenAPIDefinition(
@@ -26,10 +28,8 @@ import org.springframework.data.jpa.repository.config.*;
 				url = "https://github.com/abimaelrsergio/bank/blob/main/README.md"
 		)
 )
-/*@ComponentScans({@ComponentScan("com.bank.new.accounts.controller"}))
-@EnableJpaRepositories("com.bank.new.accounts.repository")
-@EntityScan("com.bank.new.accounts.model")*/
 @EnableJpaAuditing(auditorAwareRef = "auditAwareImpl")
+@EnableConfigurationProperties(value = AccountsContactInfoDto.class)
 @SpringBootApplication
 public class AccountsApplication {
 
