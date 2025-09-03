@@ -1,0 +1,11 @@
+build:
+  version: "2.0"
+
+accounts:
+  message: "Welcome to Bank cards related QA APIs"
+  contactDetails:
+    name: "Shirley Vanessa"
+    email: "irene@gmail.com"
+  onCallSupport:
+    - (555)675-1234
+    - (555)673-145
