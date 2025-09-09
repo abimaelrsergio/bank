@@ -1,5 +1,5 @@
-## URLs to check:
+### URLs to check:
 
-http://localhost:8071/cards/default
-http://localhost:8071/cards/prod
-http://localhost:8071/cards/qa
+- http://localhost:8071/cards/default
+- http://localhost:8071/cards/prod
+- http://localhost:8071/cards/qa
