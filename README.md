@@ -1,6 +1,6 @@
 # Bank – Microservices Demo Project
 
-**Bank** is a Java-based microservices architecture project developed as part of my studies about *Microservices with SpringBoot, Docker, and Kubernetes*. This project explores building production-grade microservices using Spring Boot, Docker, and Kubernetes, with a full ecosystem of tools for monitoring, messaging, security, and service orchestration.
+**Bank** is a Java-based microservices architecture project developed as part of my studies on *Microservices with Spring Boot, Docker, and Kubernetes*. The project explores how to build production-grade microservices using Spring Boot, Docker, and Kubernetes, supported by a full ecosystem of tools for monitoring, messaging, security, and service orchestration. 
 
 ---
 
