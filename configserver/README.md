@@ -9,6 +9,10 @@
    - http://localhost:8080/actuator
 - Actuator Refresh:
    - POST http://localhost:8080/actuator/refresh
+- health:
+   - http://localhost:8071/actuator/health
+   - http://localhost:8071/actuator/health/liveness
+   - http://localhost:8071/actuator/health/readiness
 
 ### loans
 - ConfigServer configuration:
