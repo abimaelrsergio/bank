@@ -25,6 +25,7 @@
 - [Java 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
 - [Spring Boot](https://spring.io/projects/spring-boot)
 - [Spring Cloud](https://spring.io/projects/spring-cloud)
+- [Spring Cloud Bus](https://spring.io/projects/spring-cloud-bus)
 - [Spring Cloud Config](https://spring.io/projects/spring-cloud-config)
 - [Spring Cloud Gateway](https://spring.io/projects/spring-cloud-gateway)
 - [Spring Security](https://spring.io/projects/spring-security)
