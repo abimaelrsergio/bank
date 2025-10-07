@@ -33,3 +33,8 @@
     - http://localhost:9000/actuator
 - Actuator Refresh:
     - POST http://localhost:9000/actuator/refresh
+
+### Hookdeck -> to test
+- https://dashboard.hookdeck.com/
+   - hookdeck logout
+   - hookdeck listen 8071 bank-config --cli-path /monitor

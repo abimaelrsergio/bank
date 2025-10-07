@@ -12,13 +12,13 @@ import lombok.*;
 public class Accounts extends BaseEntity {
 
     @Id
-    @Column(name = "accounts_number")
+    @Column(name = "account_number")
     private Long accountNumber;
 
     @Column(name = "customer_id")
     private Long customerId;
 
-    @Column(name = "accountType")
+    @Column(name = "account_type")
     private String accountType;
 
     @Column(name = "branch_address")
