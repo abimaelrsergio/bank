@@ -10,7 +10,7 @@ import io.swagger.v3.oas.annotations.tags.*;
 import jakarta.validation.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.core.env.*;
 import org.springframework.http.*;
 import org.springframework.validation.annotation.*;
@@ -22,18 +22,20 @@ import org.springframework.web.bind.annotation.*;
 )
 @RestController
 @RequestMapping(path = "/api/accounts", produces = {MediaType.APPLICATION_JSON_VALUE})
-@RequiredArgsConstructor
 @Validated
 public class AccountsController {
 
     private final IAccountsService iAccountsService;
 
-    private final Environment environment;
+    @Autowired
+    private Environment environment;
 
-    private final AccountsContactInfoDto accountsContactInfoDto;
+    @Autowired
+    private AccountsContactInfoDto accountsContactInfoDto;
 
-    @Value("${build.version}")
-    private String buildVersion;
+    public AccountsController(IAccountsService iAccountsService) {
+        this.iAccountsService = iAccountsService;
+    }
 
     @Operation(
             summary = "Create account rest api",
@@ -153,28 +155,6 @@ public class AccountsController {
                     .status(HttpStatus.EXPECTATION_FAILED)
                     .body(new ResponseDto(AccountsConstants.STATUS_417, AccountsConstants.MESSAGE_417_DELETE));
         }
-    }
-
-    @Operation(
-            summary = "Get Build information",
-            description = "Get Build information that is deployed into accounts microservice"
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "HTTP Status OK"
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "HTTP Status Internal Server Error",
-                    content = @Content(
-                            schema = @Schema(implementation = ErrorResponseDto.class)
-                    )
-            )
-    })
-    @GetMapping("/build-info")
-    public ResponseEntity<String> getBuildInfo(){
-        return ResponseEntity.ok(buildVersion);
     }
 
     @Operation(

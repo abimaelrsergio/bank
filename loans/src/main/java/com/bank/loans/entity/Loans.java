@@ -13,8 +13,10 @@ public class Loans extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "loan_id")
     private Long loanId;
 
+    @Column(name = "mobile_number")
     private String mobileNumber;
 
     private String loanNumber;
