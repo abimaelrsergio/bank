@@ -34,6 +34,10 @@
 - Actuator Refresh:
     - POST http://localhost:9000/actuator/refresh
 
+### Eureka Server
+- ConfigServer configuration:
+   - http://localhost:8071/eurekaserver/default
+
 ### Hookdeck -> to test
 - https://dashboard.hookdeck.com/
    - hookdeck logout
