@@ -42,3 +42,11 @@
 - https://dashboard.hookdeck.com/
    - hookdeck logout
    - hookdeck listen 8071 bank-config --cli-path /monitor
+  
+### RabbitMQ 4.x (https://www.rabbitmq.com/docs/download)
+- docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:4-management
+
+### MySQL
+- docker run -p 3306:3306 --name accountsdb -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=accountsdb mysql
+- docker run -p 3307:3306 --name loansdb -e MYSQL_ROOT_PASSWORD=root    -e MYSQL_DATABASE=loansdb mysql
+- docker run -p 3308:3306 --name cardsdb -e MYSQL_ROOT_PASSWORD=root    -e MYSQL_DATABASE=cardsdb mysql
