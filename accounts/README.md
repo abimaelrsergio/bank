@@ -1,0 +1,2 @@
+### Actuator 
+   - shutdown: POST http://localhost:8080/actuator/shutdown
