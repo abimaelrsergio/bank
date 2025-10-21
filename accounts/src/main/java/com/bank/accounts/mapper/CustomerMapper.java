@@ -5,6 +5,13 @@ import com.bank.accounts.entity.*;
 
 public class CustomerMapper {
 
+    public static CustomerDetailsDto mapToCustomerDetailsDto(Customer customer, CustomerDetailsDto customerDetailsDto){
+        customerDetailsDto.setName(customer.getName());
+        customerDetailsDto.setEmail(customer.getEmail());
+        customerDetailsDto.setMobileNumber(customer.getMobileNumber());
+        return customerDetailsDto;
+    }
+
     public static CustomerDto mapToCustomerDto(Customer customer, CustomerDto customerDto){
         customerDto.setName(customer.getName());
         customerDto.setEmail(customer.getEmail());
