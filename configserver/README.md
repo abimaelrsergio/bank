@@ -50,3 +50,9 @@
 - docker run -p 3306:3306 --name accountsdb -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=accountsdb mysql
 - docker run -p 3307:3306 --name loansdb -e MYSQL_ROOT_PASSWORD=root    -e MYSQL_DATABASE=loansdb mysql
 - docker run -p 3308:3306 --name cardsdb -e MYSQL_ROOT_PASSWORD=root    -e MYSQL_DATABASE=cardsdb mysql
+
+### Generate Docker Image:
+   - mvn compile jib:dockerBuild
+
+### Send image to DockerHub:
+   - docker image push docker.io/abimaelrsergio/configserver:08.10.2025
