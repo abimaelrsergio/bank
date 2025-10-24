@@ -15,6 +15,44 @@ services:
       file: common-config.yml
       service: network-deploy-service
 
+  configserver:
+    image: "abimaelrsergio/configserver:08.10.2025"
+    container_name: configserver-ms
+    ports:
+      - "8071:8071"
+    depends_on:
+      rabbit:
+        condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent localhost:8071/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    extends:
+      file: common-config.yml
+      service: microservice-base-config
+
+  eurekaserver:
+    image: "abimaelrsergio/eurekaserver:08.10.2025"
+    container_name: eurekaserver-ms
+    ports:
+      - "8070:8070"
+    depends_on:
+      configserver:
+        condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent localhost:8070/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    extends:
+      file: common-config.yml
+      service: microservice-configserver-config
+    environment:
+      SPRING_APPLICATION_NAME: "eurekaserver"
+
   accountsdb:
     container_name: accountsdb
     ports:
@@ -45,24 +83,6 @@ services:
       file: common-config.yml
       service: microservice-db-config
 
-  configserver:
-    image: "abimaelrsergio/configserver:08.10.2025"
-    container_name: configserver-ms
-    ports:
-      - "8071:8071"
-    depends_on:
-      rabbit:
-        condition: service_healthy
-    healthcheck:
-      test: "curl --fail --silent localhost:8071/actuator/health/readiness | grep UP || exit 1"
-      interval: 10s
-      timeout: 5s
-      retries: 10
-      start_period: 10s
-    extends:
-      file: common-config.yml
-      service: microservice-base-config
-
   accounts:
     image: "abimaelrsergio/accounts:08.10.2025"
     container_name: accounts-ms
@@ -73,12 +93,14 @@ services:
         condition: service_healthy
       accountsdb:
         condition: service_healthy
+      eurekaserver:
+        condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: "accounts"
       SPRING_DATASOURCE_URL: "jdbc:mysql://accountsdb:3306/accountsdb"
     extends:
       file: common-config.yml
-      service: microservice-configserver-config
+      service: microservice-eureka-config
 
   loans:
     image: "abimaelrsergio/loans:08.10.2025"
@@ -90,12 +112,14 @@ services:
         condition: service_healthy
       loansdb:
         condition: service_healthy
+      eurekaserver:
+        condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: "loans"
       SPRING_DATASOURCE_URL: "jdbc:mysql://loansdb:3306/loansdb"
     extends:
       file: common-config.yml
-      service: microservice-configserver-config
+      service: microservice-eureka-config
 
   cards:
     image: "abimaelrsergio/cards:08.10.2025"
@@ -107,12 +131,14 @@ services:
         condition: service_healthy
       cardsdb:
         condition: service_healthy
+      eurekaserver:
+        condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: "cards"
       SPRING_DATASOURCE_URL: "jdbc:mysql://cardsdb:3306/cardsdb"
     extends:
       file: common-config.yml
-      service: microservice-configserver-config
+      service: microservice-eureka-config
 
 networks:
   bank:
