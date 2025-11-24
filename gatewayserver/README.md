@@ -1,0 +1,2 @@
+- http://localhost:8072/actuator/gateway
+- http://localhost:8072/actuator/gateway/routes
