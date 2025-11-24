@@ -17,16 +17,16 @@ public class GatewayserverApplication {
     public RouteLocator bankRouteConfig(RouteLocatorBuilder routeLocatorBuilder) {
         return routeLocatorBuilder.routes()
                 .route(p -> p
-                        .path("/bank/accounts/**")
-                        .filters(f -> f.rewritePath("/bank/accounts/(?<segment>.*)","/${segment}"))
+                        .path("/bank/api/v1/accounts/**")
+                        .filters(f -> f.rewritePath("/bank/api/v1/accounts(?<segment>/?.*)","/api/v1/accounts${segment}"))
                         .uri("lb://ACCOUNTS"))
                 .route(p -> p
-                        .path("/bank/loans/**")
-                        .filters(f -> f.rewritePath("/bank/loans/(?<segment>.*)","/${segment}"))
+                        .path("/bank/api/v1/loans/**")
+                        .filters(f -> f.rewritePath("/bank/api/v1/loans(?<segment>/?.*)","/api/v1/loans${segment}"))
                         .uri("lb://LOANS"))
                 .route(p -> p
-                        .path("/bank/cards/**")
-                        .filters(f -> f.rewritePath("/bank/cards/(?<segment>.*)","/${segment}"))
+                        .path("/bank/api/v1/cards/**")
+                        .filters(f -> f.rewritePath("/bank/api/v1/cards(?<segment>/?.*)","/api/v1/cards${segment}"))
                         .uri("lb://CARDS"))
                 .build();
     }
