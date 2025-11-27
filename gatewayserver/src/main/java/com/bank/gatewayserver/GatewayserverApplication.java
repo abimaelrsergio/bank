@@ -6,6 +6,8 @@ import org.springframework.cloud.gateway.route.*;
 import org.springframework.cloud.gateway.route.builder.*;
 import org.springframework.context.annotation.*;
 
+import java.time.*;
+
 @SpringBootApplication
 public class GatewayserverApplication {
 
@@ -18,16 +20,25 @@ public class GatewayserverApplication {
         return routeLocatorBuilder.routes()
                 .route(p -> p
                         .path("/bank/api/v1/accounts/**")
-                        .filters(f -> f.rewritePath("/bank/api/v1/accounts(?<segment>/?.*)","/api/v1/accounts${segment}"))
-                        .uri("lb://ACCOUNTS"))
+                        .filters(f -> f.rewritePath("/bank/api/v1/accounts(?<segment>/?.*)","/api/v1/accounts${segment}")
+                                .addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
+                        )
+                        .uri("lb://ACCOUNTS")
+                )
                 .route(p -> p
                         .path("/bank/api/v1/loans/**")
-                        .filters(f -> f.rewritePath("/bank/api/v1/loans(?<segment>/?.*)","/api/v1/loans${segment}"))
-                        .uri("lb://LOANS"))
+                        .filters(f -> f.rewritePath("/bank/api/v1/loans(?<segment>/?.*)","/api/v1/loans${segment}")
+                                .addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
+                        )
+                        .uri("lb://LOANS")
+                )
                 .route(p -> p
                         .path("/bank/api/v1/cards/**")
-                        .filters(f -> f.rewritePath("/bank/api/v1/cards(?<segment>/?.*)","/api/v1/cards${segment}"))
-                        .uri("lb://CARDS"))
+                        .filters(f -> f.rewritePath("/bank/api/v1/cards(?<segment>/?.*)","/api/v1/cards${segment}")
+                                .addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
+                        )
+                        .uri("lb://CARDS")
+                )
                 .build();
     }
 }
