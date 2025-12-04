@@ -1,0 +1,45 @@
+package com.bank.gatewayserver.filters;
+
+import org.slf4j.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.cloud.gateway.filter.*;
+import org.springframework.core.annotation.*;
+import org.springframework.http.*;
+import org.springframework.stereotype.*;
+import org.springframework.web.server.*;
+import reactor.core.publisher.*;
+
+@Order(1)
+@Component
+public class RequestTraceFilter implements GlobalFilter {
+
+    private static final Logger logger = LoggerFactory.getLogger(RequestTraceFilter.class);
+
+    @Autowired
+    private FilterUtility filterUtility;
+
+
+    @Override
+    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        HttpHeaders requestHeaders = exchange.getRequest().getHeaders();
+        if(isCorrelationIdPresent(requestHeaders)){
+            logger.debug("bank-correlation-id FOUND in RequetTraceFilter : {}", filterUtility.getCorrelationId(requestHeaders));
+        } else {
+            String correlationId = generateCorrelationId();
+            exchange = filterUtility.setCorrelationId(exchange, correlationId);
+            logger.debug("bank-correlation-id GENERATED in RequestTraceFilter : {}", correlationId);
+        }
+        return chain.filter(exchange);
+    }
+
+    private boolean isCorrelationIdPresent(HttpHeaders requestHeaders){
+        if (filterUtility.getCorrelationId(requestHeaders) != null) {
+            return true;
+        }
+        return false;
+    }
+
+    private String generateCorrelationId(){
+        return java.util.UUID.randomUUID().toString();
+    }
+}
