@@ -1,7 +1,6 @@
 package com.bank.accounts.service.imp;
 
 import com.bank.accounts.dto.*;
-import com.bank.accounts.entity.*;
 import com.bank.accounts.exception.*;
 import com.bank.accounts.mapper.*;
 import com.bank.accounts.repository.*;
@@ -23,19 +22,20 @@ public class CustomerServiceImpl implements ICustomerService {
     /**
      * Retorna o customer Details preenchido com dados de Cards e Laans inclusive
      *
-     * @param mobileNumber - Input mobole number
+     * @param mobileNumber  - Input mobole number
+     * @param correlationId
      * @return Customer Details based on the given mobile number
      */
     @Override
-    public CustomerDetailsDto fetchCustomerDetails(String mobileNumber) {
+    public CustomerDetailsDto fetchCustomerDetails(String mobileNumber, String correlationId) {
         var customer = customerRepository.findByMobileNumber(mobileNumber).orElseThrow(
                 () -> new ResourceNotFoundException("Customer", "mobileNumber", mobileNumber)
         );
         var account = accountsRepository.findByCustomerId(customer.getCustomerId()).orElseThrow(
                 () -> new ResourceNotFoundException("Accounts", "customerId", customer.getCustomerId().toString())
         );
-        ResponseEntity<LoansDto> loansDtoResponseEntity = loansFeignClient.fetchLoanDetails(mobileNumber);
-        ResponseEntity<CardsDto> cardsDtoResponseEntity = cardsFeignClient.fetchCardDetails(mobileNumber);
+        ResponseEntity<LoansDto> loansDtoResponseEntity = loansFeignClient.fetchLoanDetails(correlationId, mobileNumber);
+        ResponseEntity<CardsDto> cardsDtoResponseEntity = cardsFeignClient.fetchCardDetails(correlationId, mobileNumber);
 
         var customerDetailsDto = CustomerMapper.mapToCustomerDetailsDto(customer, new CustomerDetailsDto());
         var accountsDto = AccountsMapper.mapToAccountsDto(account, new AccountsDto());

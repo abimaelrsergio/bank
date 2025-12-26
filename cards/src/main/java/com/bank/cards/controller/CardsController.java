@@ -11,6 +11,7 @@ import jakarta.validation.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
+import lombok.extern.slf4j.*;
 import org.springframework.http.*;
 import org.springframework.validation.annotation.*;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
         name = "CRUD REST APIs for Cards in Bank",
         description = "CRUD REST APIs in Bank to CREATE, UPDATE, FETCH AND DELETE card details"
 )
+@Slf4j
 @RequestMapping(path = "/api/v1/cards", produces = {MediaType.APPLICATION_JSON_VALUE})
 @AllArgsConstructor
 @Validated
@@ -75,9 +77,11 @@ public class CardsController {
             )
     })
     @GetMapping
-    public ResponseEntity<CardsDto> fetchCardDetails(@RequestParam
+    public ResponseEntity<CardsDto> fetchCardDetails(@RequestHeader("bank-correlation-id") String correlationId,
+                                                     @RequestParam
                                                      @Pattern(regexp = "(^$|[0-9]{11})", message = "Mobile number must be 11 digits")
                                                      String mobileNumber){
+        log.debug("bank-correlation-id found {}", correlationId);
         CardsDto cardsDto = iCardsService.fetchCard(mobileNumber);
         return ResponseEntity.status(HttpStatus.OK).body(cardsDto);
     }
