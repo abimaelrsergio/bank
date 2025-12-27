@@ -39,6 +39,13 @@ public class GatewayserverApplication {
                         )
                         .uri("lb://CARDS")
                 )
+                .route(p -> p
+                        .path("/bank/api/v1/customers/**")
+                        .filters(f -> f.rewritePath("/bank/api/v1/customers(?<segment>/?.*)","/api/v1/customers${segment}")
+                                .addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
+                        )
+                        .uri("lb://ACCOUNTS")
+                )
                 .build();
     }
 }
