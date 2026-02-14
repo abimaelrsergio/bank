@@ -1,60 +1,72 @@
-# Bank – Microservices Demo Project
+# Bank – Backend Systems Architecture Lab
 
-**Bank** is a Java-based microservices architecture project developed as part of my studies on *Microservices with Spring Boot, Docker, and Kubernetes*. The project explores how to build production-grade microservices using Spring Boot, Docker, and Kubernetes, supported by a full ecosystem of tools for monitoring, messaging, security, and service orchestration. 
+**Bank** is a backend-focused Java project designed to explore high-availability services, resilience patterns, and distributed system fundamentals using Spring Boot.
 
----
-
-## Features
-
-- Microservices architecture following 15-factor app methodology
-- Spring Boot & Spring Cloud-based services
-- Service discovery with Eureka
-- Configuration server with Spring Cloud Config
-- API Gateway using Spring Cloud Gateway
-- Containerization with Docker and Docker Compose
-- Observability via Prometheus, Loki, Tempo, Promtail, and Grafana
-- Resilience patterns using Resilience4j
-- OAuth2 and OpenID Connect-based authentication
-- Event-driven communication with RabbitMQ and Kafka
-- Kubernetes deployment with Helm and Google Kubernetes Engine (GKE)
+The objective of this project is to simulate production-like backend systems, focusing on reliability, fault tolerance, modular architecture, and clean service design.
 
 ---
 
-## Technologies
+## 🎯 Core Focus
 
-- [Java 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
-- [Spring Boot](https://spring.io/projects/spring-boot)
-- [Spring Cloud](https://spring.io/projects/spring-cloud)
-- [Spring Cloud Bus](https://spring.io/projects/spring-cloud-bus)
-- [Spring Cloud Config](https://spring.io/projects/spring-cloud-config)
-- [Spring Cloud Gateway](https://spring.io/projects/spring-cloud-gateway)
-- [Spring Security](https://spring.io/projects/spring-security)
-- [Docker](https://www.docker.com/)
-- [Docker Compose](https://docs.docker.com/compose/)
-- [Kubernetes](https://kubernetes.io/)
-- [Helm](https://helm.sh/)
-- [Prometheus](https://prometheus.io/)
-- [Grafana](https://grafana.com/)
-- [Loki](https://grafana.com/oss/loki/)
-- [Tempo](https://grafana.com/oss/tempo/)
-- [RabbitMQ](https://www.rabbitmq.com/)
-- [Kafka](https://kafka.apache.org/)
-- [Resilience4j](https://resilience4j.readme.io/)
-- [OAuth2 & OpenID Connect](https://openid.net/)
-- [PostgreSQL](https://www.postgresql.org/)
-- [Git](https://git-scm.com/)
+- Java 17
+- Spring Boot
+- RESTful API design
+- Service modularization
+- Transaction management
+- Resilience patterns (Circuit Breaker, Retry, Timeout)
+- Fault tolerance strategies
+- Asynchronous communication concepts
+- Database consistency strategies
+- Structured logging and monitoring fundamentals
 
 ---
 
-## Getting Started
+## 🧠 Architectural Concepts Explored
+
+- Modular service design
+- Separation of concerns
+- Externalized configuration
+- Failure handling strategies
+- Resilience4j integration
+- Secure API design principles
+- Observability fundamentals
+- Trade-offs in distributed systems
+
+---
+
+## 🛠 Technologies Used
+
+- Java 17
+- Spring Boot
+- Spring Data JPA
+- PostgreSQL
+- Resilience4j
+- Docker (local development environment)
+- Git
+
+---
+
+## ⚙️ Design Principles
+
+This project emphasizes:
+
+- Clean and maintainable code
+- Explicit error handling
+- Predictable service behavior
+- Structured logging
+- Resilience under failure scenarios
+- Production-oriented thinking
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
 - Java 17
-- Docker
 - Maven 3.9+
-- Kubernetes CLI tools (optional for deployment)
-- A Google Cloud Platform (GCP) account (for Kubernetes deployment)
+- Docker (optional for local setup)
+- PostgreSQL (if not using Docker)
 
 ---
 
