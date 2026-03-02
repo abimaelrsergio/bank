@@ -40,8 +40,12 @@ public class CustomerServiceImpl implements ICustomerService {
         var customerDetailsDto = CustomerMapper.mapToCustomerDetailsDto(customer, new CustomerDetailsDto());
         var accountsDto = AccountsMapper.mapToAccountsDto(account, new AccountsDto());
         customerDetailsDto.setAccountsDto(accountsDto);
-        customerDetailsDto.setLoansDto(loansDtoResponseEntity.getBody());
-        customerDetailsDto.setCardsDto(cardsDtoResponseEntity.getBody());
+        if (loansDtoResponseEntity != null) {
+            customerDetailsDto.setLoansDto(loansDtoResponseEntity.getBody());
+        }
+        if (cardsDtoResponseEntity != null) {
+            customerDetailsDto.setCardsDto(cardsDtoResponseEntity.getBody());
+        }
 
         return customerDetailsDto;
     }
