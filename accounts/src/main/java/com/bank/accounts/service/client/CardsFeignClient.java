@@ -5,7 +5,7 @@ import org.springframework.cloud.openfeign.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(name="cards", fallback = CardsFeignClient.class)
+@FeignClient(name="cards", fallback = CardsFallback.class)
 public interface CardsFeignClient {
 
     @GetMapping(value = "/api/v1/cards", consumes =  MediaType.APPLICATION_JSON_VALUE)
