@@ -1,10 +1,15 @@
 package com.bank.gatewayserver;
 
+import io.github.resilience4j.circuitbreaker.*;
+import io.github.resilience4j.timelimiter.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.circuitbreaker.resilience4j.*;
+import org.springframework.cloud.client.circuitbreaker.*;
 import org.springframework.cloud.gateway.route.*;
 import org.springframework.cloud.gateway.route.builder.*;
 import org.springframework.context.annotation.*;
+import org.springframework.http.*;
 
 import java.time.*;
 
@@ -32,6 +37,9 @@ public class GatewayserverApplication {
                         .path("/bank/api/v1/loans/**")
                         .filters(f -> f.rewritePath("/bank/api/v1/loans(?<segment>/?.*)","/api/v1/loans${segment}")
                                 .addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
+                                .retry(retryConfig -> retryConfig.setRetries(3)
+                                        .setMethods(HttpMethod.GET)
+                                        .setBackoff(Duration.ofMillis(100), Duration.ofMillis(1000),2,true))
                         )
                         .uri("lb://LOANS")
                 )
@@ -50,5 +58,13 @@ public class GatewayserverApplication {
                         .uri("lb://ACCOUNTS")
                 )
                 .build();
+    }
+
+    @Bean
+    public Customizer<ReactiveResilience4JCircuitBreakerFactory> defaultCustomizer() {
+        return factory -> factory.configureDefault(id -> new Resilience4JConfigBuilder(id)
+                .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
+                .timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofSeconds(4)).build())
+                .build());
     }
 }

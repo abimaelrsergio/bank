@@ -1,9 +1,11 @@
 package com.bank.loans;
 
+import com.bank.loans.dto.*;
 import io.swagger.v3.oas.annotations.*;
 import io.swagger.v3.oas.annotations.info.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.*;
 import org.springframework.data.jpa.repository.config.*;
 
 @OpenAPIDefinition(
@@ -27,6 +29,7 @@ import org.springframework.data.jpa.repository.config.*;
 		)
 )
 @EnableJpaAuditing(auditorAwareRef = "auditAwareImpl")
+@EnableConfigurationProperties(value = LoansContactInfoDto.class)
 @SpringBootApplication
 public class LoansApplication {
 

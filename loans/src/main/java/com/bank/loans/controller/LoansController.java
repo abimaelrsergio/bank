@@ -11,6 +11,7 @@ import jakarta.validation.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 import lombok.extern.slf4j.*;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
 import org.springframework.validation.annotation.*;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,9 @@ import org.springframework.web.bind.annotation.*;
 public class LoansController {
 
     private ILoansService iLoansService;
+
+    @Autowired
+    private LoansContactInfoDto loansContactInfoDto;
 
     @Operation(
             summary = "Create Loan REST API",
@@ -160,6 +164,12 @@ public class LoansController {
                     .status(HttpStatus.EXPECTATION_FAILED)
                     .body(new ResponseDto(LoansConstants.STATUS_417, LoansConstants.MESSAGE_417_DELETE));
         }
+    }
+
+    @GetMapping("/contact-info")
+    public ResponseEntity<LoansContactInfoDto> getContactInfo(){
+        log.debug("getLoansContactInfo");
+        return ResponseEntity.ok(loansContactInfoDto);
     }
 
 }

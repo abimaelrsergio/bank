@@ -3,6 +3,7 @@ package com.bank.accounts.controller;
 import com.bank.accounts.constants.*;
 import com.bank.accounts.dto.*;
 import com.bank.accounts.service.*;
+import io.github.resilience4j.retry.annotation.*;
 import io.swagger.v3.oas.annotations.*;
 import io.swagger.v3.oas.annotations.media.*;
 import io.swagger.v3.oas.annotations.responses.*;
@@ -13,6 +14,7 @@ import lombok.*;
 import lombok.extern.log4j.*;
 import lombok.extern.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.*;
 import org.springframework.http.*;
 import org.springframework.validation.annotation.*;
@@ -22,12 +24,16 @@ import org.springframework.web.bind.annotation.*;
         name = "CRUD REST APIs for Accounts in Bank",
         description = "CRUD REST APIs in Bank to CREATE, UPDATE, FETCH AND DELETE account details"
 )
+@Slf4j
 @RestController
 @RequestMapping(path = "/api/v1/accounts", produces = {MediaType.APPLICATION_JSON_VALUE})
 @Validated
 public class AccountsController {
 
     private final IAccountsService iAccountsService;
+
+    @Value("${build.version}")
+    private String buildVersion;
 
     @Autowired
     private Environment environment;
@@ -160,6 +166,38 @@ public class AccountsController {
     }
 
     @Operation(
+            summary = "Get Build information",
+            description = "Get Build information that is deployed into accounts microservice"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    }
+    )
+    @Retry(name = "getBuildInfo", fallbackMethod = "getBuildInfoFallback")
+    @GetMapping("/build-info")
+    public ResponseEntity<String> getBuildInfo() {
+       return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(buildVersion);
+    }
+
+    public ResponseEntity<String> getBuildInfoFallback(Throwable throwable) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("0.9");
+    }
+
+    @Operation(
             summary = "Get Java version information",
             description = "Get Java version that is installed into accounts microservice"
     )
@@ -202,4 +240,6 @@ public class AccountsController {
     public ResponseEntity<AccountsContactInfoDto> getContactInfo(){
         return ResponseEntity.ok(accountsContactInfoDto);
     }
+
+
 }
