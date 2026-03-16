@@ -3,6 +3,7 @@ package com.bank.accounts.controller;
 import com.bank.accounts.constants.*;
 import com.bank.accounts.dto.*;
 import com.bank.accounts.service.*;
+import io.github.resilience4j.ratelimiter.annotation.*;
 import io.github.resilience4j.retry.annotation.*;
 import io.swagger.v3.oas.annotations.*;
 import io.swagger.v3.oas.annotations.media.*;
@@ -216,9 +217,14 @@ public class AccountsController {
                     )
             )
     })
+    @RateLimiter(name = "getJavaVersion", fallbackMethod = "getJavaVersionFallback")
     @GetMapping("/java-version")
     public ResponseEntity<String> getJavaVersion(){
         return ResponseEntity.ok(environment.getProperty("JAVA_HOME"));
+    }
+
+    public ResponseEntity<String> getJavaVersionFallback(Throwable throwable){
+        return ResponseEntity.ok("Java 17");
     }
 
     @Operation(
