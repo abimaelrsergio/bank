@@ -6,10 +6,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.circuitbreaker.resilience4j.*;
 import org.springframework.cloud.client.circuitbreaker.*;
+import org.springframework.cloud.gateway.filter.ratelimit.*;
 import org.springframework.cloud.gateway.route.*;
 import org.springframework.cloud.gateway.route.builder.*;
 import org.springframework.context.annotation.*;
 import org.springframework.http.*;
+import reactor.core.publisher.*;
 
 import java.time.*;
 
@@ -47,6 +49,8 @@ public class GatewayserverApplication {
                         .path("/bank/api/v1/cards/**")
                         .filters(f -> f.rewritePath("/bank/api/v1/cards(?<segment>/?.*)","/api/v1/cards${segment}")
                                 .addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
+                                .requestRateLimiter(config -> config.setRateLimiter(redisRateLimiter())
+                                        .setKeyResolver(userKeyResolver()))
                         )
                         .uri("lb://CARDS")
                 )
@@ -66,5 +70,16 @@ public class GatewayserverApplication {
                 .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
                 .timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofSeconds(4)).build())
                 .build());
+    }
+
+    @Bean
+    public RedisRateLimiter redisRateLimiter(){
+        return new RedisRateLimiter(1, 1, 1);
+    }
+
+    @Bean
+    KeyResolver userKeyResolver(){
+        return exchange -> Mono.justOrEmpty(exchange.getRequest().getHeaders().getFirst("user"))
+                .defaultIfEmpty("anonymous");
     }
 }
